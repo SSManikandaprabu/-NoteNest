@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NoteNest</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;color:#241b3b;background:linear-gradient(135deg,#faf8ff,#eee8ff);min-height:100vh}
+button,input,textarea,select{font:inherit}.hidden{display:none!important}
+#loader{position:fixed;inset:0;z-index:9;display:grid;place-items:center;color:#fff;text-align:center;overflow:hidden;background:linear-gradient(135deg,#704fff,#c45cff,#ff75b5)}
+.orb{position:absolute;width:330px;height:330px;border-radius:50%;background:#fff4;filter:blur(12px);animation:float 5s infinite}.o1{top:-100px;left:-80px}.o2{right:-90px;bottom:-100px}
+.loader{position:relative}.nest{width:190px;height:120px;position:relative;margin:auto;animation:lev 2.5s infinite}.nest:before{content:"";position:absolute;bottom:5px;left:5px;width:180px;height:65px;border-radius:50%;background:linear-gradient(135deg,#81502d,#d69a55);transform:rotateX(55deg);box-shadow:0 25px 40px #34145a55}.paper{position:absolute;z-index:2;left:42px;top:0;width:105px;height:72px;border-radius:10px;background:#fff;transform:rotate(-8deg);box-shadow:0 15px 30px #35165c55;animation:paper 2.2s infinite}.paper:after{content:"";position:absolute;left:15px;right:15px;top:22px;height:5px;border-radius:5px;background:#d9d1ff;box-shadow:0 13px #e9e5ff,0 26px #eeeaff}.sticky{position:absolute;width:55px;height:45px;border-radius:8px;box-shadow:0 10px 20px #35165c44}.s1{left:0;top:10px;background:#ffd85e;animation:float 3s infinite}.s2{right:0;top:12px;background:#5bd8a2;animation:float 3.2s .3s infinite}.s3{right:25px;bottom:0;background:#4dbaff;animation:float 3.4s .6s infinite}
+h1{font-size:clamp(44px,8vw,78px);margin:12px 0 4px;letter-spacing:-4px}.loader p{margin:0 0 22px}.bar{width:280px;height:8px;border-radius:20px;background:#fff4;margin:auto;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#fff;animation:load 2.7s forwards}.percent{margin-top:9px;font-weight:800}
+@keyframes load{to{width:100%}}@keyframes lev{50%{transform:translateY(-14px)}}@keyframes paper{50%{transform:rotate(7deg) translateY(-10px)}}@keyframes float{50%{transform:translateY(-20px)}}
+#app{display:none}.top{height:72px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;background:#ffffffc9;backdrop-filter:blur(18px);position:sticky;top:0;z-index:5;border-bottom:1px solid #fff}.brand{font-weight:900;font-size:22px;display:flex;gap:10px;align-items:center}.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,#7657ff,#ff62a8);display:grid;place-items:center;color:#fff}.search{width:min(430px,45vw);padding:12px 16px;border:1px solid #e4def2;border-radius:15px;outline:0;background:#fff}
+.wrap{display:flex;max-width:1500px;margin:auto}.side{width:230px;padding:25px 15px}.nav{display:flex;flex-direction:column;gap:5px}.nav button{border:0;background:transparent;text-align:left;padding:12px 14px;border-radius:13px;color:#776b91;cursor:pointer}.nav button:hover,.nav button.active{background:#fff;color:#7657ff;box-shadow:0 10px 25px #7657ff12}.main{flex:1;padding:35px 25px}.hero{display:flex;align-items:center;justify-content:space-between;gap:20px}.hero h2{font-size:40px;margin:0;letter-spacing:-2px}.muted{color:#776b91}.primary{border:0;color:#fff;background:linear-gradient(135deg,#7657ff,#ff62a8);padding:14px 18px;border-radius:15px;font-weight:800;cursor:pointer;box-shadow:0 12px 28px #7657ff40}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0}.stat,.card{background:#ffffffbd;backdrop-filter:blur(15px);border:1px solid #fff;border-radius:22px;box-shadow:0 20px 55px #5b429c18}.stat{padding:20px}.stat small{color:#776b91}.stat strong{display:block;font-size:30px;margin-top:8px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{padding:20px;min-height:180px;transition:.25s;cursor:pointer}.card:hover{transform:translateY(-6px);box-shadow:0 30px 70px #5b429c2a}.topline{display:flex;justify-content:space-between}.tag{font-size:12px;font-weight:800;background:#eee9ff;color:#7657ff;border-radius:99px;padding:6px 9px}.card h3{margin:20px 0 8px}.card p{color:#776b91;line-height:1.5;white-space:pre-line}.smallbtn{border:0;background:#f0ecfa;border-radius:10px;padding:8px;cursor:pointer}.fab{position:fixed;right:25px;bottom:25px;width:58px;height:58px;border:0;border-radius:20px;background:linear-gradient(135deg,#7657ff,#ff62a8);color:white;font-size:28px;box-shadow:0 18px 40px #7657ff55;cursor:pointer}
+.modal{position:fixed;inset:0;z-index:8;background:#21153d77;backdrop-filter:blur(7px);display:grid;place-items:center;padding:20px}.box{width:min(620px,100%);background:#fff;border-radius:26px;padding:25px;box-shadow:0 30px 100px #1e123d55}.field{width:100%;padding:13px;margin:6px 0;border:1px solid #e4def2;border-radius:13px;outline:0}.area{min-height:170px;resize:vertical}.modalfoot{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}.secondary{border:0;background:#f0ecfa;padding:12px 16px;border-radius:13px;cursor:pointer;font-weight:700}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.side{width:190px}.search{width:38vw}}
+@media(max-width:680px){.side{display:none}.top{padding:0 15px}.search{display:none}.main{padding:25px 15px}.hero{flex-direction:column;align-items:flex-start}.hero h2{font-size:32px}.primary{width:100%}.stats,.grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div id="loader"><div class="orb o1"></div><div class="orb o2"></div><div class="loader">
+<div class="nest"><div class="paper"></div><div class="sticky s1"></div><div class="sticky s2"></div><div class="sticky s3"></div></div>
+<h1>NoteNest</h1><p>Capture it. Organize it. Never forget it.</p><div class="bar"><i></i></div><div class="percent" id="percent">0%</div>
+</div></div>
+<div id="app">
+<header class="top"><div class="brand"><span class="logo">🪺</span>NoteNest</div><input id="search" class="search" placeholder="🔍 Search everything..."><div>🔔　👤</div></header>
+<div class="wrap"><aside class="side"><nav class="nav">
+<button class="active" data-filter="all">🏠 Dashboard</button><button data-filter="all">📝 All Notes</button><button data-filter="pinned">⭐ Pinned</button><button data-filter="checklist">☑️ Checklists</button><button data-filter="reminder">📅 Reminders</button><button data-filter="idea">💡 Ideas</button>
+</nav></aside><main class="main">
+<div class="hero"><div><h2>Good evening 👋</h2><div class="muted" id="date"></div></div><button class="primary" id="newBtn">＋ New Note</button></div>
+<div class="stats"><div class="stat"><small>📝 TOTAL NOTES</small><strong id="count">0</strong></div><div class="stat"><small>⭐ PINNED</small><strong id="pins">0</strong></div><div class="stat"><small>📅 REMINDERS</small><strong id="reminders">0</strong></div><div class="stat"><small>☑️ COMPLETED</small><strong id="done">0</strong></div></div>
+<h2>✨ Your Nest</h2><div class="grid" id="notes"></div></main></div><button class="fab" id="fab">＋</button></div>
+<div class="modal hidden" id="modal"><div class="box"><h2>📝 Create a Note</h2><input id="title" class="field" placeholder="Note title"><select id="type" class="field"><option value="note">📝 Note</option><option value="idea">💡 Idea</option><option value="checklist">☑️ Checklist</option><option value="reminder">📅 Reminder</option></select><textarea id="content" class="field area" placeholder="Write something..."></textarea><input id="tags" class="field" placeholder="#college #project"><div class="modalfoot"><button class="secondary" id="cancel">Cancel</button><button class="primary" id="saveBtn">Save Note</button></div></div></div>
+<script>
+const KEY="notenest_notes";
+let notes=JSON.parse(localStorage.getItem(KEY)||"null")||[
+{id:1,title:"Exam Preparation",content:"Finish JavaScript and React revision before the next test.",type:"note",tags:"#study",pinned:true,done:false},
+{id:2,title:"Website Idea",content:"Build a colourful productivity platform people can use every day.",type:"idea",tags:"#project #idea",pinned:false,done:false},
+{id:3,title:"Trip Preparation",content:"☑ Clothes\n☑ Charger\n☐ Power Bank\n☐ Shoes",type:"checklist",tags:"#travel",pinned:false,done:false},
+{id:4,title:"Project Submission",content:"Review the final project and submit it.",type:"reminder",tags:"#urgent",pinned:false,done:false}
+];
+let filter="all";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function persist(){localStorage.setItem(KEY,JSON.stringify(notes))}
+function render(){
+ let q=$("search").value.toLowerCase();
+ let arr=notes.filter(n=>(filter==="all"||(filter==="pinned"&&n.pinned)||n.type===filter)&&(`${n.title} ${n.content} ${n.tags}`.toLowerCase().includes(q)));
+ $("notes").innerHTML=arr.length?arr.map((n,i)=>`<article class="card"><div class="topline"><span class="tag">${n.type==="idea"?"💡 IDEA":n.type==="checklist"?"☑ CHECKLIST":n.type==="reminder"?"📅 REMINDER":"📝 NOTE"}</span><button class="smallbtn pin" data-id="${n.id}">${n.pinned?"⭐":"☆"}</button></div><h3>${esc(n.title)}</h3><p>${esc(n.content)}</p><small>${esc(n.tags||"")}</small><div style="margin-top:14px;display:flex;gap:8px"><button class="smallbtn edit" data-id="${n.id}">✏️ Edit</button><button class="smallbtn del" data-id="${n.id}">🗑️</button></div></article>`).join(""):`<div class="card" style="grid-column:1/-1;text-align:center"><div style="font-size:45px">🪺</div><h3>Your nest is empty</h3><p>Create your first note.</p></div>`;
+ $("count").textContent=notes.length;$("pins").textContent=notes.filter(n=>n.pinned).length;$("reminders").textContent=notes.filter(n=>n.type==="reminder").length;$("done").textContent=notes.filter(n=>n.done).length;
+}
+function openModal(n){$("modal").classList.remove("hidden");$("title").value=n?.title||"";$("content").value=n?.content||"";$("tags").value=n?.tags||"";$("type").value=n?.type||"note";$("modal").dataset.id=n?.id||""}
+function closeModal(){$("modal").classList.add("hidden")}
+$("newBtn").onclick=$("fab").onclick=()=>openModal();$("cancel").onclick=closeModal;
+$("saveBtn").onclick=()=>{let title=$("title").value.trim(),content=$("content").value.trim();if(!title)return alert("Please enter a title.");let id=$("modal").dataset.id;if(id){let n=notes.find(x=>x.id==id);Object.assign(n,{title,content,type:$("type").value,tags:$("tags").value})}else notes.unshift({id:Date.now(),title,content,type:$("type").value,tags:$("tags").value,pinned:false,done:false});persist();closeModal();render()};
+$("search").oninput=render;
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter||"all";render()});
+$("notes").onclick=e=>{let id=Number(e.target.dataset.id);if(!id)return;if(e.target.classList.contains("pin")){let n=notes.find(x=>x.id===id);n.pinned=!n.pinned;persist();render()}else if(e.target.classList.contains("del")){if(confirm("Delete this note?")){notes=notes.filter(x=>x.id!==id);persist();render()}}else if(e.target.classList.contains("edit"))openModal(notes.find(x=>x.id===id))};
+$("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+let p=0;let t=setInterval(()=>{p+=4;$("percent").textContent=p+"%";if(p>=100){clearInterval(t);setTimeout(()=>{$("loader").classList.add("hidden");$("app").style.display="block";render()},250)}},75);
+</script></body></html>
